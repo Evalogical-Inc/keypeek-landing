@@ -1,0 +1,26 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "gradient-text",
+        "value": "*",
+        "files": [
+          "public/**"
+        ],
+        "createdAt": "2026-11-18T06:08:13.737Z",
+        "reason": "Deliberate: the hero product name mirrors the sibling DevReady page's gradient serif wordmark (user asked to match DevReady)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "public/index.html"
+        ],
+        "createdAt": "2026-11-18T06:08:50.238Z",
+        "reason": "Footer .foot-base has 20px padding-top under its border (verified in Chrome); the static detector misses it because .wrap sets padding shorthand"
+      }
+    ]
+  }
+}

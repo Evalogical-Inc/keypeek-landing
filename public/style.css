@@ -10,7 +10,7 @@
   --card-2: #ececef;
   --ink: #121212;
   --ink-2: #5f6168;
-  --ink-3: #8a8c93;
+  --ink-3: #6b6d74;
   --line: #e6e6ea;
   --amber: #f59e0b;
   --amber-deep: #c2410c;
@@ -130,7 +130,7 @@ h1 em {
 
 /* stage: soft gradient frame around a terminal */
 .stage {
-  margin-top: 56px; padding: clamp(14px, 3vw, 36px); border-radius: 32px;
+  margin-top: 56px; padding: 32px; border-radius: 32px;
   background: linear-gradient(135deg, #ffe8cc 0%, #fff6ec 42%, #f1edff 100%);
   border: 1px solid #f6e7d6;
 }
@@ -168,12 +168,12 @@ h1 em {
 .sec { padding: clamp(64px, 9vw, 112px) 0 0; }
 .sec.tight { padding-top: clamp(56px, 7vw, 88px); }
 h2 { font-size: clamp(2rem, 4.2vw, 3rem); line-height: 1.1; letter-spacing: -0.04em; text-wrap: balance; }
-h2.small { font-size: 1.2rem; letter-spacing: -0.01em; }
+.strip-title { font-size: 1.2rem; font-weight: 500; letter-spacing: -0.01em; margin: 0; }
 .statement { font-size: clamp(1.8rem, 3.6vw, 2.6rem); line-height: 1.15; }
 .sub { color: var(--ink-2); font-size: 1.1rem; margin-top: 20px; }
 .muted { color: var(--ink-2); margin: 2px 0 0; }
 .kicker { color: var(--amber-deep); font-weight: 500; font-size: 0.95rem; margin: 0 0 10px; }
-.kicker.light { color: rgb(255 255 255 / 0.8); }
+.kicker.light { color: rgb(255 255 255 / 0.92); }
 
 .feats { list-style: none; padding: 0; margin: 36px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 18px 40px; }
 .feats li { display: flex; align-items: center; gap: 14px; font-size: 1.08rem; font-weight: 500; }
@@ -200,10 +200,10 @@ h2.small { font-size: 1.2rem; letter-spacing: -0.01em; }
 .logos li { display: inline-flex; align-items: center; gap: 9px; }
 
 /* grey cards */
-.card { background: var(--card); border-radius: 32px; padding: clamp(24px, 4vw, 48px); }
+.card { background: var(--card); border-radius: 32px; padding: 44px; }
 .card.split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 56px); align-items: center; }
 .card h2 { margin-bottom: 8px; }
-.inset { background: #fff; border-radius: 24px; padding: clamp(20px, 3vw, 32px); box-shadow: 0 12px 30px rgb(17 17 17 / 0.06); }
+.inset { background: #fff; border-radius: 24px; padding: 28px; box-shadow: 0 12px 30px rgb(17 17 17 / 0.06); }
 .inset-title { font-weight: 500; }
 
 .steps { list-style: none; counter-reset: s; padding: 0; margin: 24px 0 0; display: grid; gap: 18px; }
@@ -255,8 +255,8 @@ h2.small { font-size: 1.2rem; letter-spacing: -0.01em; }
 /* Evalogical card */
 .eva {
   display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 56px); align-items: center;
-  padding: clamp(28px, 5vw, 52px); border-radius: 32px; color: #fff;
-  background: radial-gradient(60% 80% at 85% 10%, rgb(251 191 36 / 0.35), transparent 60%), linear-gradient(135deg, #4338ca 0%, #4f46e5 55%, #6d28d9 100%);
+  padding: 48px; border-radius: 32px; color: #fff;
+  background: linear-gradient(135deg, #4338ca 0%, #4f46e5 55%, #6d28d9 100%);
 }
 .eva h2 { margin-bottom: 18px; }
 .eva p { color: rgb(255 255 255 / 0.88); }
@@ -310,6 +310,9 @@ footer { background: var(--card); margin-top: clamp(64px, 9vw, 112px); padding: 
   .install { padding-left: 16px; }
   .install code { font-size: 0.9rem; }
   .stage, .card, .eva { border-radius: 24px; }
+  .stage { padding: 14px; }
+  .card, .eva { padding: 24px; }
+  .inset { padding: 20px; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
