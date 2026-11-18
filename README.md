@@ -7,11 +7,11 @@ A single static page. No framework, no build step, no analytics, no third-party 
 ```
 public/
   index.html      the page (copy, structure, JSON-LD)
-  style.css       tokens, layout, light and dark themes
-  app.js          copy buttons and the hero demo
+  style.css       tokens and layout (light theme only)
+  app.js          copy buttons, tabs and the hero demo
   favicon.svg     placeholder logo, replace with the final one
   robots.txt
-  fonts/          IBM Plex Sans, Sans Condensed and Mono (OFL), woff2
+  fonts/          DM Sans, DM Serif Display italic and IBM Plex Mono (OFL), woff2
 vercel.json       output directory, security headers and a strict Content-Security-Policy
 ```
 
@@ -25,11 +25,15 @@ Open http://localhost:4173. To test with the real security headers, serve with t
 
 ## Deploy
 
-Import the repo in Vercel. It needs no framework preset: `vercel.json` already sets `outputDirectory` to `public`. Use the `*.vercel.app` address for now.
+Live at https://keypeek.vercel.app (Vercel team `eva-devops-projects`, project `keypeek`). Pushes to `main` deploy to production. No framework preset or build step: `vercel.json` sets `outputDirectory` to `public`.
+
+Manual deploy: `vercel deploy --prod --scope eva-devops-projects`.
 
 ## Design notes
 
-- Light "paper" theme with a dark terminal as the one memorable element. Dark mode follows the visitor's system setting.
+- Same family as the DevReady page: floating pill nav, centred hero with a serif-italic product name, soft glow, grey cards, dark terminals. keypeek uses amber and indigo instead of orange.
+- Light only, even when the visitor's system is in dark mode.
+- Icons are inline SVG and fonts are self-hosted, so the page makes no third-party requests.
 - The hero demo is simulated and labelled as such. It respects `prefers-reduced-motion` (the final state shows immediately).
 - The fake key in the demo is assembled in `app.js`, so no secret-shaped string sits in the page source.
 - No analytics on purpose: it would contradict the "no telemetry" promise. Measure reach with GitHub Insights and public npm download counts.
