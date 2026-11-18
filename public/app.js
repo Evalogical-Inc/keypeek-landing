@@ -17,6 +17,28 @@ for (const btn of document.querySelectorAll("[data-copy]")) {
   });
 }
 
+// Tabs: WAI-ARIA tab pattern, arrow keys move between tabs.
+const tabs = [...document.querySelectorAll('[role="tab"]')];
+const select = (tab) => {
+  for (const t of tabs) {
+    const on = t === tab;
+    t.setAttribute("aria-selected", on);
+    t.tabIndex = on ? 0 : -1;
+    document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+  }
+};
+tabs.forEach((tab, i) => {
+  tab.addEventListener("click", () => select(tab));
+  tab.addEventListener("keydown", (e) => {
+    const step = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+    const to = step ? tabs[(i + step + tabs.length) % tabs.length] : e.key === "Home" ? tabs[0] : e.key === "End" ? tabs.at(-1) : null;
+    if (!to) return;
+    e.preventDefault();
+    select(to);
+    to.focus();
+  });
+});
+
 // Hero demo: a simulated scan of a fake machine. The fake key is assembled here so no
 // secret-shaped string sits in the page source.
 const keyEl = document.getElementById("key");

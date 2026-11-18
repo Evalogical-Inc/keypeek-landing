@@ -5,13 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>keypeek: see what your AI agents can see</title>
 <meta name="description" content="keypeek is a free, read-only command-line tool that shows which secrets AI coding agents like Claude Code, Cursor and Codex can read on your machine. No network, and it never prints a secret.">
-<meta name="color-scheme" content="light dark">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#ffffff">
 <meta property="og:type" content="website">
 <meta property="og:title" content="keypeek: see what your AI agents can see">
 <meta property="og:description" content="A free, read-only scan for the API keys your AI coding agents can reach. No network. Never prints a secret.">
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="preload" href="fonts/plex-condensed-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="style.css">
 <script type="application/ld+json">
 {
@@ -43,58 +44,81 @@
 </script>
 </head>
 <body>
+<svg class="sprite" aria-hidden="true">
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-offline" viewBox="0 0 24 24"><path d="M12 20h.01"/><path d="M8.5 16.43a5 5 0 0 1 7 0"/><path d="M5 12.86a10 10 0 0 1 5.17-2.69"/><path d="M19 12.86a10 10 0 0 0-2-1.43"/><path d="M2 8.82a15 15 0 0 1 4.18-2.65"/><path d="M22 8.82a15 15 0 0 0-11.29-3.76"/><path d="m2 2 20 20"/></symbol>
+  <symbol id="i-eyeoff" viewBox="0 0 24 24"><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.53 13.53 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/><path d="m2 2 20 20"/></symbol>
+  <symbol id="i-package" viewBox="0 0 24 24"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><path d="m3.3 7 8.7 5 8.7-5"/></symbol>
+  <symbol id="i-braces" viewBox="0 0 24 24"><path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1"/><path d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"/></symbol>
+  <symbol id="i-gauge" viewBox="0 0 24 24"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4"/><path d="m21 2-9.6 9.6"/><circle cx="7.5" cy="15.5" r="5.5"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
+  <symbol id="i-github" viewBox="0 0 24 24"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></symbol>
+  <symbol id="i-message" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></symbol>
+  <symbol id="i-pointer" viewBox="0 0 24 24"><path d="M4.037 4.688a.495.495 0 0 1 .651-.651l16 6.5a.5.5 0 0 1-.063.947l-6.124 1.58a2 2 0 0 0-1.438 1.435l-1.579 6.126a.5.5 0 0 1-.947.063z"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 24 24"><path d="m7 11 2-2-2-2"/><path d="M11 13h4"/><rect width="18" height="18" x="3" y="3" rx="2"/></symbol>
+  <symbol id="i-gem" viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></symbol>
+  <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol>
+</svg>
+
 <a class="skip" href="#main">Skip to content</a>
 
-<div class="wrap">
-  <header class="top">
+<header class="nav-wrap">
+  <nav class="nav" aria-label="Main">
     <a class="brand" href="#top" aria-label="keypeek home">
-      <svg viewBox="0 0 256 256" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <circle class="m-a" cx="92" cy="128" r="54" stroke-width="16"/>
-        <path class="m-b" d="M56 128 Q92 96 128 128 Q92 160 56 128Z" stroke-width="9"/>
-        <circle class="m-bf" cx="92" cy="128" r="9" stroke="none"/>
-        <path class="m-a" d="M146 128 H224 M190 128 V160 M214 128 V152" stroke-width="16"/>
-      </svg>
+      <span class="brand-mark">
+        <svg viewBox="0 0 256 256" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <circle class="m-a" cx="92" cy="128" r="54" stroke-width="18"/>
+          <path class="m-b" d="M56 128 Q92 96 128 128 Q92 160 56 128Z" stroke-width="10"/>
+          <circle class="m-bf" cx="92" cy="128" r="10" stroke="none"/>
+          <path class="m-a" d="M146 128 H224 M190 128 V160 M214 128 V152" stroke-width="18"/>
+        </svg>
+      </span>
       keypeek
     </a>
-    <nav class="nav" aria-label="Main">
+    <div class="nav-links">
       <a href="#where">Where keys hide</a>
       <a href="#how">How it works</a>
-      <a href="#trust">Trust</a>
       <a href="#faq">FAQ</a>
       <a href="https://github.com/Evalogical-Inc/keypeek" rel="noopener">GitHub</a>
-      <a href="https://www.npmjs.com/package/@evalogical/keypeek" rel="noopener">npm</a>
-    </nav>
-  </header>
-</div>
+    </div>
+    <a class="pill dark" href="https://evalogical.com/contactus?utm_source=keypeek&amp;utm_medium=landing&amp;utm_campaign=nav-cta" rel="noopener"><svg class="i"><use href="#i-message"/></svg>Talk to Evalogical</a>
+  </nav>
+</header>
 
 <main id="main">
-<div class="wrap" id="top">
 
-  <section class="hero" aria-labelledby="h1">
-    <div>
-      <h1 id="h1">See what your AI agents can see.</h1>
-      <p class="lede">keypeek checks your machine for API keys that tools like Claude Code, Cursor and Codex can reach: in their own transcripts, your shell history and your <code>.env</code> files. It takes a few seconds, changes nothing and never shows a secret.</p>
+  <section class="hero" id="top" aria-labelledby="h1">
+    <div class="wrap center">
+      <h1 id="h1">Meet <em>keypeek</em><br>See what your AI agents can see</h1>
+      <p class="lede">keypeek checks your machine for API keys that Claude Code, Cursor and Codex can reach: in their own transcripts, your shell history and your <code>.env</code> files. It takes a few seconds, changes nothing and never shows a secret.</p>
 
       <div class="install">
         <code id="cmd">npx @evalogical/keypeek</code>
         <button type="button" data-copy="#cmd">Copy</button>
       </div>
-      <p class="fine">Free and open source (MIT). Needs Node 20 or newer. macOS and Linux.</p>
-      <div class="hero-links">
-        <a class="btn primary" href="https://github.com/Evalogical-Inc/keypeek" rel="noopener">Star on GitHub</a>
-        <a class="btn" href="https://www.npmjs.com/package/@evalogical/keypeek" rel="noopener">View on npm</a>
-      </div>
+      <p class="fine"><svg class="i amber"><use href="#i-heart"/></svg>Free and open source. No account, no telemetry. <a href="https://github.com/Evalogical-Inc/keypeek" rel="noopener"><svg class="i"><use href="#i-star"/></svg>Give us a star on GitHub</a></p>
     </div>
 
-    <div class="demo" id="demo" role="group" aria-label="Simulated scan of a fake machine">
-      <div class="panel">
-        <div class="panel-bar"><span>agent transcript</span><span>simulated</span></div>
+    <div class="wrap">
+      <div class="stage">
+        <div class="demo" id="demo" role="group" aria-label="Simulated scan of a fake machine">
+          <div class="term">
+            <div class="term-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span>agent transcript</span><span class="term-tag">simulated</span></div>
 <pre id="tx"><span class="d">you    </span>Deploy the shop API. Here is the key:
 <span class="d">you    </span>OPENAI_API_KEY=<span class="key" id="key">sk-d3m0d3m0…</span>
 <span class="d">agent  </span>Thanks. I'll add it to .env and deploy.</pre>
-      </div>
-      <div class="panel">
-        <div class="panel-bar"><span>$ npx @evalogical/keypeek</span><button type="button" class="replay" id="replay">Replay scan</button></div>
+          </div>
+          <div class="term">
+            <div class="term-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span><span class="prompt">$</span> npx @evalogical/keypeek</span><button type="button" class="replay" id="replay">Replay scan</button></div>
 <pre id="out" aria-live="off"><span class="b">keypeek</span>  <span class="d">what your AI agents can see</span>
 
 Score  <span class="bar"><i></i></span>  <span class="b">77/100</span>  grade <span class="b">B</span>
@@ -109,155 +133,254 @@ Score  <span class="bar"><i></i></span>  <span class="b">77/100</span>  grade <s
   <span class="m">medium</span> OpenAI   sk-d…(39)  x1    ~/work/shop/.env:1
 
 <span class="d">Only a 4-char prefix and the length are shown.</span></pre>
+          </div>
+        </div>
+        <p class="stage-note">A simulated scan on a fake machine. The real tool reads yours.</p>
       </div>
-      <p class="demo-note">A simulated scan on a fake machine. The real tool reads yours.</p>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="why-h">
+    <div class="wrap narrow">
+      <h2 id="why-h" class="statement">Secret scanners check your git history. Your AI agents read somewhere else.</h2>
+      <p class="sub">An agent that can open files and run commands can read your old chats, your shell history and every <code>.env</code> under your home folder. keypeek is a small, read-only command-line tool that shows you what is sitting there, ranked by how exposed it is.</p>
+      <ul class="feats">
+        <li><span class="ic ink"><svg class="i"><use href="#i-shield"/></svg></span>Read-only by design</li>
+        <li><span class="ic indigo"><svg class="i"><use href="#i-offline"/></svg></span>No network, no telemetry</li>
+        <li><span class="ic amber"><svg class="i"><use href="#i-eyeoff"/></svg></span>Never prints a secret</li>
+        <li><span class="ic ink"><svg class="i"><use href="#i-package"/></svg></span>Zero runtime dependencies</li>
+        <li><span class="ic amber"><svg class="i"><use href="#i-gauge"/></svg></span>A score from 0 to 100</li>
+        <li><span class="ic indigo"><svg class="i"><use href="#i-braces"/></svg></span>JSON output for scripts</li>
+      </ul>
     </div>
   </section>
 
   <section class="sec" id="where" aria-labelledby="where-h">
-    <div class="sec-grid">
-      <h2 id="where-h">Where agents find your keys</h2>
-      <div class="sec-body">
-        <p>Secret scanners look at git history. Your agents look somewhere else. keypeek checks the four places they actually read.</p>
-        <dl class="rows">
-          <div class="row">
-            <dt>Agent transcripts <span class="tag high">high</span></dt>
-            <dd>If a key was ever pasted into a chat, a model has already seen it. Rotate it.
-              <span class="path"><span>~/.claude</span><span>~/.codex</span><span>~/.gemini</span><span>~/.cursor</span></span></dd>
-          </div>
-          <div class="row">
-            <dt>Shell history <span class="tag high">high</span></dt>
-            <dd>Any agent that can run commands can read this file, and every key you ever typed into a command is in it.
-              <span class="path"><span>~/.zsh_history</span><span>~/.bash_history</span><span>fish history</span></span></dd>
-          </div>
-          <div class="row">
-            <dt><code>.env</code> files <span class="tag medium">medium</span></dt>
-            <dd>Agents read these by default. Template files like <code>.env.example</code> are skipped.
-              <span class="path">.env, .env.local, .env.production &hellip; under your home folder</span></dd>
-          </div>
-          <div class="row">
-            <dt>Environment variables <span class="tag low">low</span></dt>
-            <dd>Every command an agent runs inherits the environment of your shell.
-              <span class="path">the shell that runs keypeek</span></dd>
-          </div>
-          <div class="row">
-            <dt>Agent settings</dt>
-            <dd>keypeek also tells you whether Claude Code has a deny rule for <code>.env</code>. It reports what is set. It does not change anything.</dd>
-          </div>
-        </dl>
+    <div class="wrap">
+      <h2 id="where-h" class="center">Four places agents look. One scan.</h2>
+
+      <div class="tabs" role="tablist" aria-label="Where keys hide">
+        <button type="button" role="tab" id="t-tx" aria-controls="p-tx" aria-selected="true">Transcripts</button>
+        <button type="button" role="tab" id="t-hi" aria-controls="p-hi" aria-selected="false" tabindex="-1">Shell history</button>
+        <button type="button" role="tab" id="t-env" aria-controls="p-env" aria-selected="false" tabindex="-1"><code>.env</code> files</button>
+        <button type="button" role="tab" id="t-pe" aria-controls="p-pe" aria-selected="false" tabindex="-1">Environment</button>
       </div>
+
+      <div class="stage soft">
+        <div class="panel" role="tabpanel" id="p-tx" aria-labelledby="t-tx" tabindex="0">
+          <div class="term wide">
+            <div class="term-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span>keypeek</span><span class="sev high">high</span></div>
+<pre><span class="b">Agent transcripts (2)</span>  <span class="d">already in a model's context, rotate these</span>
+<span class="d">  SEV    TYPE       VALUE       SEEN  LOCATION</span>
+  <span class="h">high</span>   Anthropic  sk-a…(108)  x2    ~/.claude/projects/api/3f2c.jsonl:41
+  <span class="h">high</span>   GitHub     ghp_…(40)   x1    ~/.codex/sessions/rollout.jsonl:9</pre>
+            <p class="term-foot">If a key was ever pasted into a chat, a model has already seen it. Checks <code>~/.claude</code>, <code>~/.codex</code>, <code>~/.gemini</code> and <code>~/.cursor</code>.</p>
+          </div>
+        </div>
+        <div class="panel" role="tabpanel" id="p-hi" aria-labelledby="t-hi" tabindex="0" hidden>
+          <div class="term wide">
+            <div class="term-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span>keypeek</span><span class="sev high">high</span></div>
+<pre><span class="b">Shell history (1)</span>  <span class="d">any agent with shell access can read it</span>
+<span class="d">  SEV    TYPE       VALUE       SEEN  LOCATION</span>
+  <span class="h">high</span>   AWS        AKIA…(20)   x1    ~/.zsh_history:2210</pre>
+            <p class="term-foot">Every key you ever typed into a command is in this file. Checks zsh, bash and fish history. Skip it with <code>--no-history</code>.</p>
+          </div>
+        </div>
+        <div class="panel" role="tabpanel" id="p-env" aria-labelledby="t-env" tabindex="0" hidden>
+          <div class="term wide">
+            <div class="term-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span>keypeek</span><span class="sev medium">medium</span></div>
+<pre><span class="b">.env files (2)</span>  <span class="d">agents read these by default</span>
+<span class="d">  SEV    TYPE       VALUE       SEEN  LOCATION</span>
+  <span class="m">medium</span> Stripe     sk_l…(107)  x1    ~/work/shop/.env:4
+  <span class="m">medium</span> Slack      xoxb…(57)   x1    ~/old/bot/.env.local:2</pre>
+            <p class="term-foot">Agents read these by default. Template files like <code>.env.example</code> are skipped.</p>
+          </div>
+        </div>
+        <div class="panel" role="tabpanel" id="p-pe" aria-labelledby="t-pe" tabindex="0" hidden>
+          <div class="term wide">
+            <div class="term-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span>keypeek</span><span class="sev low">low</span></div>
+<pre><span class="b">Environment variables (1)</span>  <span class="d">inherited by every subprocess an agent starts</span>
+<span class="d">  SEV    TYPE         VALUE      SEEN  LOCATION</span>
+  <span class="l">low</span>    HuggingFace  hf_A…(37)  x1    (process environment)</pre>
+            <p class="term-foot">Every command an agent runs inherits the environment of your shell.</p>
+          </div>
+        </div>
+      </div>
+
+      <ul class="perks">
+        <li><svg class="i"><use href="#i-zap"/></svg><h3>A few seconds</h3><p>One command scans your whole home folder.</p></li>
+        <li><svg class="i amber"><use href="#i-shield"/></svg><h3>Safe by default</h3><p>No writes, no network, no telemetry.</p></li>
+        <li><svg class="i indigo"><use href="#i-gauge"/></svg><h3>Ranked, not dumped</h3><p>A key in a transcript counts for more than one in an old <code>.env</code>.</p></li>
+        <li><svg class="i"><use href="#i-braces"/></svg><h3>Script-friendly</h3><p><code>--json</code> output and a <code>--fail-on</code> exit code.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec tight" aria-labelledby="agents-h">
+    <div class="wrap center">
+      <h2 id="agents-h" class="small">Checks what these agents leave behind</h2>
+      <p class="muted">and the files every one of them can open</p>
+      <ul class="logos">
+        <li><svg class="i"><use href="#i-sparkle"/></svg>Claude Code</li>
+        <li><svg class="i"><use href="#i-pointer"/></svg>Cursor</li>
+        <li><svg class="i"><use href="#i-terminal"/></svg>Codex</li>
+        <li><svg class="i"><use href="#i-gem"/></svg>Gemini CLI</li>
+        <li><svg class="i"><use href="#i-history"/></svg>zsh, bash, fish</li>
+        <li><svg class="i"><use href="#i-file"/></svg>.env</li>
+      </ul>
     </div>
   </section>
 
   <section class="sec" id="how" aria-labelledby="how-h">
-    <div class="sec-grid">
-      <h2 id="how-h">Four steps, a few seconds</h2>
-      <div class="sec-body">
-        <ol class="steps">
-          <li><div><h3>Find</h3><p>It looks in the places agents look: transcripts, shell history, <code>.env</code> files and your shell's environment.</p></div></li>
-          <li><div><h3>Match</h3><p>Known key formats from Anthropic, OpenAI, GitHub, AWS, Stripe, Google, Slack, Hugging Face and others, plus a conservative rule for names like <code>API_KEY</code> or <code>PASSWORD</code> that hold high-entropy values.</p></div></li>
-          <li><div><h3>Rank</h3><p>A key already in a transcript counts for more than a key in an unused <code>.env</code>. Points are capped per surface so one noisy folder cannot hide progress elsewhere.</p></div></li>
-          <li><div><h3>Redact</h3><p>Only a 4-character prefix, the length and a hash fingerprint leave the scanner. The full value is never stored in a result.</p></div></li>
-        </ol>
-        <p class="mt-l">The score starts at 100 and goes down with each finding.</p>
-        <ul class="grades" aria-label="Grades">
-          <li><b>A</b><span>90+</span></li>
-          <li><b>B</b><span>75+</span></li>
-          <li><b>C</b><span>55+</span></li>
-          <li><b>D</b><span>35+</span></li>
-          <li><b>F</b><span>below 35</span></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec" id="trust" aria-labelledby="trust-h">
-    <div class="sec-grid">
-      <h2 id="trust-h">Check the promises yourself</h2>
-      <div class="sec-body">
-        <ul class="promises">
-          <li><h3>Read-only</h3><p>It never writes, moves or deletes anything. A test compares file modification times before and after a scan.</p></li>
-          <li><h3>Offline</h3><p>No network, no telemetry. The package has zero runtime dependencies.</p></li>
-          <li><h3>Never shows a secret</h3><p>Results hold a prefix, a length and a fingerprint. A test scans both the text and JSON output for the full value.</p></li>
-        </ul>
-        <p>The tool is about 430 lines of TypeScript, so you can read all of it. Or run this in a clone of the repository. It prints nothing:</p>
-        <div class="install wrapcode">
-          <code id="grep">grep -rE "node:(http|https|http2|net|tls|dns|dgram|child_process)|fetch\(|writeFile|appendFile|createWriteStream" src</code>
-          <button type="button" data-copy="#grep">Copy</button>
+    <div class="wrap">
+      <div class="card split">
+        <div>
+          <p class="kicker">How it works</p>
+          <h2 id="how-h">Four steps, a few seconds.</h2>
+          <ol class="steps">
+            <li><h3>Find</h3><p>It looks where agents look: transcripts, shell history, <code>.env</code> files and your shell's environment.</p></li>
+            <li><h3>Match</h3><p>Known key formats from Anthropic, OpenAI, GitHub, AWS, Stripe, Google, Slack, Hugging Face and others, plus a careful rule for names like <code>API_KEY</code> that hold high-entropy values.</p></li>
+            <li><h3>Rank</h3><p>Points are capped per place, so one noisy folder cannot hide progress elsewhere.</p></li>
+            <li><h3>Redact</h3><p>Only a 4-character prefix, the length and a hash fingerprint leave the scanner.</p></li>
+          </ol>
         </div>
-        <p class="fine">If keypeek ever breaks one of these promises, please report it privately. See the <a href="https://github.com/Evalogical-Inc/keypeek/blob/main/SECURITY.md" rel="noopener">security policy</a>.</p>
+        <div class="inset">
+          <p class="inset-title">The score starts at 100 and goes down with each finding.</p>
+          <ul class="grades" aria-label="Grades">
+            <li><b>A</b><span>90 and up</span></li>
+            <li><b>B</b><span>75 and up</span></li>
+            <li><b>C</b><span>55 and up</span></li>
+            <li><b>D</b><span>35 and up</span></li>
+            <li><b>F</b><span>below 35</span></li>
+          </ul>
+          <ul class="sevs">
+            <li><span class="sev high">high</span>Transcripts and shell history</li>
+            <li><span class="sev medium">medium</span><code>.env</code> files</li>
+            <li><span class="sev low">low</span>Environment variables</li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
 
   <section class="sec" id="next" aria-labelledby="next-h">
-    <div class="sec-grid">
-      <h2 id="next-h">If it finds something</h2>
-      <div class="sec-body">
-        <ol class="steps">
-          <li><div><h3>Rotate it</h3><p>Anything in a transcript or shell history has already been in a model's context or sitting in plain text. Treat it as exposed.</p></div></li>
-          <li><div><h3>Move it out</h3><p>Keep secrets in a secrets manager or your OS keychain and inject them when you run a command, for example with <code>op run</code> from 1Password, Doppler or Infisical.</p></div></li>
-          <li><div><h3>Add a deny rule</h3><p>Tell your agent's file tools to skip <code>.env</code>. In Claude Code's <code>settings.json</code>:</p>
-            <div class="install wrapcode mt-m">
-              <code id="deny">{ "permissions": { "deny": ["Read(./.env)", "Read(./.env.*)"] } }</code>
-              <button type="button" data-copy="#deny">Copy</button>
-            </div>
-            <p class="fine mt-s">A deny rule is not a full barrier: shell commands can still read the file. Check your agent's current docs for exact syntax.</p></div></li>
-          <li><div><h3>Run keypeek again</h3><p>Confirm the score went up.</p></div></li>
-        </ol>
+    <div class="wrap">
+      <div class="card split">
+        <div>
+          <p class="kicker">If it finds something</p>
+          <h2 id="next-h">Rotate, move it out, run it again.</h2>
+          <ol class="steps">
+            <li><h3>Rotate it</h3><p>Anything in a transcript or shell history has already been in a model's context or in plain text. Treat it as exposed.</p></li>
+            <li><h3>Move it out</h3><p>Keep secrets in a secrets manager or your OS keychain and inject them when you run a command, for example with <code>op run</code> from 1Password, Doppler or Infisical.</p></li>
+            <li><h3>Run keypeek again</h3><p>Confirm the score went up.</p></li>
+          </ol>
+        </div>
+        <div class="inset">
+          <p class="inset-title">Add a deny rule. Tell your agent's file tools to skip <code>.env</code>. In Claude Code's <code>settings.json</code>:</p>
+          <div class="install code-block">
+            <code id="deny">{ "permissions": { "deny": ["Read(./.env)", "Read(./.env.*)"] } }</code>
+            <button type="button" data-copy="#deny">Copy</button>
+          </div>
+          <p class="fine left">A deny rule is not a full barrier: shell commands can still read the file. Check your agent's current docs for exact syntax.</p>
+        </div>
       </div>
+    </div>
+  </section>
+
+  <section class="sec" id="trust" aria-labelledby="trust-h">
+    <div class="wrap narrow">
+      <h2 id="trust-h" class="center">Don't take our word for it.</h2>
+      <p class="sub center">The tool is about 430 lines of TypeScript, so you can read all of it.</p>
+      <ul class="promises">
+        <li><span class="ic ink"><svg class="i"><use href="#i-lock"/></svg></span><h3>Read-only</h3><p>It never writes, moves or deletes anything. A test compares file modification times before and after a scan.</p></li>
+        <li><span class="ic indigo"><svg class="i"><use href="#i-offline"/></svg></span><h3>Offline</h3><p>No network, no telemetry. The package has zero runtime dependencies.</p></li>
+        <li><span class="ic amber"><svg class="i"><use href="#i-key"/></svg></span><h3>Never shows a secret</h3><p>Results hold a prefix, a length and a fingerprint. A test scans the text and JSON output for the full value.</p></li>
+      </ul>
+      <p class="center">Or run this in a clone of the repository. It prints nothing:</p>
+      <div class="install code-block">
+        <code id="grep">grep -rE "node:(http|https|http2|net|tls|dns|dgram|child_process)|fetch\(|writeFile|appendFile|createWriteStream" src</code>
+        <button type="button" data-copy="#grep">Copy</button>
+      </div>
+      <p class="fine plain">Found a broken promise? Report it privately. See the <a href="https://github.com/Evalogical-Inc/keypeek/blob/main/SECURITY.md" rel="noopener">security policy</a>.</p>
     </div>
   </section>
 
   <section class="sec" id="fit" aria-labelledby="fit-h">
-    <div class="sec-grid">
-      <h2 id="fit-h">Where keypeek fits</h2>
-      <div class="sec-body">
-        <div class="fit">
-          <div>
-            <h3>Who it's for</h3>
-            <ul>
-              <li>Solo builders who let an AI agent run in their projects.</li>
-              <li>Developers with a messy home folder: old <code>.env</code> files, keys in shell history, keys pasted into chats.</li>
-              <li>Small teams and agencies handing a laptop or repo to an AI agent.</li>
-            </ul>
-          </div>
-          <div>
-            <h3>What it is not</h3>
-            <ul>
-              <li>Not a replacement for gitleaks, trufflehog or GitGuardian. Those find secrets in repositories.</li>
-              <li>Not a secrets manager. 1Password, Doppler and Infisical keep secrets out of reach. keypeek tells you if you have the problem today.</li>
-              <li>They work well together: audit, fix, audit again.</li>
-            </ul>
-          </div>
+    <div class="wrap">
+      <h2 id="fit-h" class="center">Where keypeek fits</h2>
+      <div class="duo">
+        <div class="card">
+          <h3>Who it's for</h3>
+          <ul class="ticks">
+            <li><svg class="i"><use href="#i-check"/></svg><span>Solo builders who let an AI agent run in their projects.</span></li>
+            <li><svg class="i"><use href="#i-check"/></svg><span>Developers with a messy home folder: old <code>.env</code> files, keys in shell history, keys pasted into chats.</span></li>
+            <li><svg class="i"><use href="#i-check"/></svg><span>Small teams and agencies handing a laptop or repo to an AI agent.</span></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>What it is not</h3>
+          <ul class="ticks plain">
+            <li>Not a replacement for gitleaks, trufflehog or GitGuardian. Those find secrets in repositories.</li>
+            <li>Not a secrets manager. 1Password, Doppler and Infisical keep secrets out of reach. keypeek tells you if you have the problem today.</li>
+            <li>They work well together: audit, fix, audit again.</li>
+          </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="sec" id="help" aria-labelledby="help-h">
-    <div class="sec-grid">
-      <h2 id="help-h">Help build it</h2>
-      <div class="sec-body">
-        <p>keypeek is open source and small enough to read in an afternoon. Good ways to start:</p>
-        <ul class="help-list">
-          <li><a href="https://github.com/Evalogical-Inc/keypeek/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22" rel="noopener">Pick a good first issue</a>, such as adding a key format it does not detect yet.</li>
-          <li><a href="https://github.com/Evalogical-Inc/keypeek/issues/new?template=detection.md" rel="noopener">Report a false positive or a missed key</a>. Use a fake example, never a real secret.</li>
-          <li><a href="https://github.com/Evalogical-Inc/keypeek/issues?q=is%3Aissue+is%3Aopen+label%3Aroadmap" rel="noopener">Vote on the roadmap</a> with a thumbs-up on the ideas you want.</li>
-          <li><a href="https://github.com/Evalogical-Inc/keypeek/discussions" rel="noopener">Start a discussion</a> with a question or an idea.</li>
-        </ul>
-        <div class="hero-links">
-          <a class="btn primary" href="https://github.com/Evalogical-Inc/keypeek" rel="noopener">Star on GitHub</a>
-          <a class="btn" href="https://github.com/Evalogical-Inc/keypeek/blob/main/CONTRIBUTING.md" rel="noopener">Read the contributing guide</a>
+  <section class="sec" id="roadmap" aria-labelledby="roadmap-h">
+    <div class="wrap">
+      <div class="card split">
+        <div>
+          <p class="kicker">Coming next, not shipped yet</p>
+          <h2 id="roadmap-h">Help decide what comes next.</h2>
+          <p>keypeek is open source and small enough to read in an afternoon. These ideas are open issues. Give a thumbs-up to the ones you want, or pick one up.</p>
+          <div class="row-btns">
+            <a class="pill dark" href="https://github.com/Evalogical-Inc/keypeek" rel="noopener"><svg class="i"><use href="#i-github"/></svg>Star on GitHub</a>
+            <a class="pill" href="https://github.com/Evalogical-Inc/keypeek/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22" rel="noopener">Good first issues<svg class="i"><use href="#i-arrow"/></svg></a>
+          </div>
         </div>
+        <ul class="issues">
+          <li><a href="https://github.com/Evalogical-Inc/keypeek/issues/2" rel="noopener"><span>Claude Code plugin and skill</span><span class="num">#2</span></a></li>
+          <li><a href="https://github.com/Evalogical-Inc/keypeek/issues/3" rel="noopener"><span>Shareable grade badge</span><span class="num">#3</span></a></li>
+          <li><a href="https://github.com/Evalogical-Inc/keypeek/issues/4" rel="noopener"><span>GitHub Action</span><span class="num">#4</span></a></li>
+          <li><a href="https://github.com/Evalogical-Inc/keypeek/issues/7" rel="noopener"><span>Scan Cursor's chat database</span><span class="num">#7</span></a></li>
+          <li><a href="https://github.com/Evalogical-Inc/keypeek/issues/8" rel="noopener"><span>Homebrew install</span><span class="num">#8</span></a></li>
+          <li><a href="https://github.com/Evalogical-Inc/keypeek/issues/6" rel="noopener"><span>Windows support</span><span class="num">#6</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="eva-h">
+    <div class="wrap">
+      <div class="eva">
+        <div>
+          <p class="kicker light">Built by Evalogical</p>
+          <h2 id="eva-h">Like what we built here? We can build it for your product.</h2>
+          <p>Evalogical is a software company delivering AI-enabled product engineering for startups and businesses. keypeek is how we work: small, read-only, tested and open about its limits.</p>
+          <div class="row-btns">
+            <a class="pill white" href="https://evalogical.com/contactus?utm_source=keypeek&amp;utm_medium=landing&amp;utm_campaign=dev-card" rel="noopener">Talk to our consultant</a>
+            <a class="pill ghost" href="https://evalogical.com/get-an-estimate?utm_source=keypeek&amp;utm_medium=landing&amp;utm_campaign=dev-card" rel="noopener">Get an estimate</a>
+            <a class="pill ghost" href="https://evalogical.com/hire-a-developer?utm_source=keypeek&amp;utm_medium=landing&amp;utm_campaign=dev-card" rel="noopener">Hire a developer</a>
+          </div>
+        </div>
+        <ul class="services">
+          <li>Product engineering and MVPs</li>
+          <li>AI development and automation</li>
+          <li>Web and mobile apps</li>
+          <li>Digital transformation and DevOps</li>
+          <li>Staff augmentation</li>
+        </ul>
       </div>
     </div>
   </section>
 
   <section class="sec" id="faq" aria-labelledby="faq-h">
-    <div class="sec-grid">
-      <h2 id="faq-h">Questions</h2>
-      <div class="sec-body">
+    <div class="wrap faq">
+      <h2 id="faq-h">Still curious about keypeek? Here are the answers.</h2>
+      <div>
         <details><summary>Does keypeek send my data anywhere?</summary><p>No. The package has no network code and no telemetry, and this page has no analytics either.</p></details>
         <details><summary>Can it change or delete my files?</summary><p>No. It only reads. A test checks that file modification times are unchanged after a scan.</p></details>
         <details><summary>Will it show me my secrets?</summary><p>No. It prints a 4-character prefix and the length, never the full value.</p></details>
@@ -265,23 +388,52 @@ Score  <span class="bar"><i></i></span>  <span class="b">77/100</span>  grade <s
         <details><summary>Is it a replacement for gitleaks or a secrets manager?</summary><p>No. Those prevent and catch leaks. keypeek checks what your AI agents can reach on this machine.</p></details>
         <details><summary>Does it work on Windows?</summary><p>Not tested yet. macOS and Linux are supported.</p></details>
         <details><summary>Can it miss secrets?</summary><p>Yes. Detection is pattern-based, so new key formats can slip through and a few high-entropy values may be flagged by mistake. Cursor's chat database is not scanned yet. The <a href="https://github.com/Evalogical-Inc/keypeek#known-limits" rel="noopener">known limits</a> are listed in the README.</p></details>
+        <details><summary>How do I update it?</summary><p><code>npx @evalogical/keypeek@latest</code> always runs the newest version. If you installed it globally, run <code>npm install -g @evalogical/keypeek@latest</code>.</p></details>
       </div>
     </div>
   </section>
 
-</div>
 </main>
 
 <footer>
-  <div class="wrap">
-    <div class="links">
-      <a href="https://github.com/Evalogical-Inc/keypeek" rel="noopener">GitHub</a>
-      <a href="https://www.npmjs.com/package/@evalogical/keypeek" rel="noopener">npm</a>
-      <a href="https://github.com/Evalogical-Inc/keypeek/blob/main/ROADMAP.md" rel="noopener">Roadmap</a>
-      <a href="https://github.com/Evalogical-Inc/keypeek/blob/main/SECURITY.md" rel="noopener">Security policy</a>
-      <a href="https://github.com/Evalogical-Inc/keypeek/blob/main/LICENSE" rel="noopener">MIT license</a>
+  <div class="wrap foot">
+    <div>
+      <a class="brand" href="#top">
+        <span class="brand-mark">
+          <svg viewBox="0 0 256 256" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <circle class="m-a" cx="92" cy="128" r="54" stroke-width="18"/>
+            <path class="m-b" d="M56 128 Q92 96 128 128 Q92 160 56 128Z" stroke-width="10"/>
+            <circle class="m-bf" cx="92" cy="128" r="10" stroke="none"/>
+            <path class="m-a" d="M146 128 H224 M190 128 V160 M214 128 V152" stroke-width="18"/>
+          </svg>
+        </span>
+        keypeek
+      </a>
+      <p>See what your AI agents can see. Free and open source under the MIT license.</p>
     </div>
-    <p>keypeek is free and open source. Built by <a href="https://github.com/Evalogical-Inc" rel="noopener">Evalogical</a>.</p>
+    <div>
+      <h3>Project</h3>
+      <ul>
+        <li><a href="https://github.com/Evalogical-Inc/keypeek" rel="noopener">GitHub</a></li>
+        <li><a href="https://www.npmjs.com/package/@evalogical/keypeek" rel="noopener">npm package</a></li>
+        <li><a href="https://github.com/Evalogical-Inc/keypeek/blob/main/ROADMAP.md" rel="noopener">Roadmap</a></li>
+        <li><a href="https://github.com/Evalogical-Inc/keypeek/blob/main/CONTRIBUTING.md" rel="noopener">Contributing</a></li>
+        <li><a href="https://github.com/Evalogical-Inc/keypeek/blob/main/SECURITY.md" rel="noopener">Security policy</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Evalogical</h3>
+      <ul>
+        <li><a href="https://evalogical.com/?utm_source=keypeek&amp;utm_medium=landing&amp;utm_campaign=footer" rel="noopener">About us</a></li>
+        <li><a href="https://evalogical.com/get-an-estimate?utm_source=keypeek&amp;utm_medium=landing&amp;utm_campaign=footer" rel="noopener">Get an estimate</a></li>
+        <li><a href="https://evalogical.com/hire-a-developer?utm_source=keypeek&amp;utm_medium=landing&amp;utm_campaign=footer" rel="noopener">Hire a developer</a></li>
+        <li><a href="mailto:info@evalogical.com">info@evalogical.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap foot-base">
+    <span>© 2026 <a href="https://evalogical.com/?utm_source=keypeek&amp;utm_medium=landing&amp;utm_campaign=footer" rel="noopener">Evalogical</a></span>
+    <span>No cookies, no analytics.</span>
   </div>
 </footer>
 
