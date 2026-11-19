@@ -282,6 +282,31 @@ Score  <span class="bar"><i></i></span>  <span class="b">77/100</span>  grade <s
     </div>
   </section>
 
+  <section class="sec" id="agents-use" aria-labelledby="agents-use-h">
+    <div class="wrap">
+      <div class="card split">
+        <div>
+          <p class="kicker">For AI coding agents</p>
+          <h2 id="agents-use-h">Ask Claude Code if your keys are exposed.</h2>
+          <p>The keypeek plugin adds a skill and a <code>/keypeek:audit</code> command. Claude runs the same read-only scan, explains the findings and proposes the fix. It is told not to open flagged files and not to change anything without asking.</p>
+          <p class="fine left">Support for other agents (Codex, Cursor, Gemini CLI) is not shipped yet. It is on the roadmap below.</p>
+        </div>
+        <div class="inset">
+          <p class="inset-title">In Claude Code:</p>
+          <div class="install code-block">
+            <code id="plug1">/plugin marketplace add Evalogical-Inc/keypeek</code>
+            <button type="button" data-copy="#plug1">Copy</button>
+          </div>
+          <div class="install code-block">
+            <code id="plug2">/plugin install keypeek@keypeek</code>
+            <button type="button" data-copy="#plug2">Copy</button>
+          </div>
+          <p class="fine left">The report lists where your secrets live (paths and 4-character previews, never values), and it enters the chat. Run it when you want the audit.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="sec" id="trust" aria-labelledby="trust-h">
     <div class="wrap narrow">
       <h2 id="trust-h" class="center">Don't take our word for it.</h2>
@@ -337,7 +362,6 @@ Score  <span class="bar"><i></i></span>  <span class="b">77/100</span>  grade <s
           </div>
         </div>
         <ul class="issues">
-          <li><a href="https://github.com/Evalogical-Inc/keypeek/issues/2" rel="noopener"><span>Claude Code plugin and skill</span><span class="num">#2</span></a></li>
           <li><a href="https://github.com/Evalogical-Inc/keypeek/issues/3" rel="noopener"><span>Shareable grade badge</span><span class="num">#3</span></a></li>
           <li><a href="https://github.com/Evalogical-Inc/keypeek/issues/4" rel="noopener"><span>GitHub Action</span><span class="num">#4</span></a></li>
           <li><a href="https://github.com/Evalogical-Inc/keypeek/issues/7" rel="noopener"><span>Scan Cursor's chat database</span><span class="num">#7</span></a></li>
