@@ -313,3 +313,8 @@ footer { background: var(--card); margin-top: clamp(64px, 9vw, 112px); padding: 
   html { scroll-behavior: auto; }
   * { transition: none !important; animation: none !important; }
 }
+
+/* agents section */
+.agent-card { margin-top: 16px; }
+.agent-card .panel > p { margin-bottom: 14px; }
+.agent-card .install.code-block { margin-bottom: 12px; background: #fff; }

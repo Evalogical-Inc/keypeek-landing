@@ -18,7 +18,8 @@ for (const btn of document.querySelectorAll("[data-copy]")) {
 }
 
 // Tabs: WAI-ARIA tab pattern, arrow keys move between tabs.
-const tabs = [...document.querySelectorAll('[role="tab"]')];
+for (const list of document.querySelectorAll('[role="tablist"]')) {
+const tabs = [...list.querySelectorAll('[role="tab"]')];
 const select = (tab) => {
   for (const t of tabs) {
     const on = t === tab;
@@ -38,6 +39,7 @@ tabs.forEach((tab, i) => {
     to.focus();
   });
 });
+}
 
 // Hero demo: a simulated scan of a fake machine. The fake key is assembled here so no
 // secret-shaped string sits in the page source.
